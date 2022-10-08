@@ -16,7 +16,7 @@ const Header = (params) => {
         </Link>
         <div className="header__cart">
           <Link to="/cart.html" className="button button--cart">
-            <span>520 ₽</span>
+            <span className="button__total-cost">520 ₽</span>
             <div className="button__delimiter"></div>
             <svg
               width="18"
@@ -46,7 +46,7 @@ const Header = (params) => {
                 strokeLinejoin="round"
               />
             </svg>
-            <span>3</span>
+            <span className="button__total-items">3</span>
           </Link>
         </div>
       </div>
