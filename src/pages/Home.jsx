@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { SearchContext } from '../App';
 import Categories from '../comonents/Categories';
 import Pagination from '../comonents/Pagination';
 import PizzaBlock from '../comonents/PizzaBlock';
 import Skeleton from '../comonents/PizzaBlock/skeleton';
 import Sort from '../comonents/Sort';
 
-const Home = ({ searchValue, setSearchValue }) => {
+const Home = () => {
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [activeCategoryIndex, setActiveCategoryIndex] = useState(0);
   const [currentSort, setCurrentSort] = useState({ name: 'популярности', sortProperty: 'raiting' });
   const [currentPage, setCurrentPage] = useState(1);
+  const { searchValue } = useContext(SearchContext);
 
   useEffect(() => {
     const order = currentSort.sortProperty.includes('-') ? 'asc' : 'desc';
@@ -27,7 +29,7 @@ const Home = ({ searchValue, setSearchValue }) => {
         setItems(arr);
         setIsLoading(false);
       });
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 0); //при переходе на новую страницу делать скролл вверх
   }, [activeCategoryIndex, currentSort, searchValue, currentPage]);
   return (
     <div className="container">
