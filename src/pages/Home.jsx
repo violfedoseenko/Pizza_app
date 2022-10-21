@@ -12,15 +12,12 @@ const Home = () => {
   const dispatch = useDispatch();
   const activeCategoryIndex = useSelector((state) => state.filter.categoryId);
   const onChangeCategory = (id) => {
-    console.log(id);
     dispatch(setCategoryId(id));
   };
-  console.log('redux stste', activeCategoryIndex);
+  const currentSort = useSelector(store=>store.filter.sort)
 
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  // const [activeCategoryIndex, setActiveCategoryIndex] = useState(0);
-  const [currentSort, setCurrentSort] = useState({ name: 'популярности', sortProperty: 'raiting' });
   const [currentPage, setCurrentPage] = useState(1);
   const { searchValue } = useContext(SearchContext);
 
@@ -45,7 +42,7 @@ const Home = () => {
     <div className="container">
       <div className="content__top">
         <Categories activeCategoryId={activeCategoryIndex} onChangeCategory={onChangeCategory} />
-        <Sort currentSort={currentSort} onChangeSort={(index) => setCurrentSort(index)} />
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">

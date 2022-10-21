@@ -1,18 +1,25 @@
 import React, { useState } from 'react';
+import {useSelector, useDispatch} from 'react-redux'
+import { setSortType } from '../redux/slices/filterSlice';
 
-const Sort = ({ currentSort, onChangeSort }) => {
+const list = [
+  { name: 'популярности (DESC)', sortProperty: 'raiting' },
+  { name: 'популярности (ASC)', sortProperty: '-raiting' },
+  { name: 'цене (DESC)', sortProperty: 'price' },
+  { name: 'цене (ASC)', sortProperty: '-price' },
+  { name: 'алфавиту (DESC)', sortProperty: 'title' },
+  { name: 'алфавиту (ASC)', sortProperty: '-title' },
+];
+
+const Sort = () => {
+  const dispatch = useDispatch()
+  const currentSort = useSelector(store=>store.filter.sort)
+
+
   const [open, setOpen] = useState(false);
-  const list = [
-    { name: 'популярности (DESC)', sortProperty: 'raiting' },
-    { name: 'популярности (ASC)', sortProperty: '-raiting' },
-    { name: 'цене (DESC)', sortProperty: 'price' },
-    { name: 'цене (ASC)', sortProperty: '-price' },
-    { name: 'алфавиту (DESC)', sortProperty: 'title' },
-    { name: 'алфавиту (ASC)', sortProperty: '-title' },
-  ];
 
-  const onSelectSort = (item) => {
-    onChangeSort(item);
+  const onSelectSort = (obj) => {
+    dispatch(setSortType(obj))
     setOpen(false);
   };
 
