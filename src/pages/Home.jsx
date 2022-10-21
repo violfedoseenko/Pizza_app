@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { SearchContext } from '../App';
 import { useSelector, useDispatch } from 'react-redux';
+import { setCategoryId } from '../redux/slices/filterSlice';
 import Categories from '../comonents/Categories';
 import Pagination from '../comonents/Pagination';
 import PizzaBlock from '../comonents/PizzaBlock';
@@ -8,9 +9,11 @@ import Skeleton from '../comonents/PizzaBlock/skeleton';
 import Sort from '../comonents/Sort';
 
 const Home = () => {
+  const dispatch = useDispatch();
   const activeCategoryIndex = useSelector((state) => state.filter.categoryId);
   const onChangeCategory = (id) => {
     console.log(id);
+    dispatch(setCategoryId(id));
   };
   console.log('redux stste', activeCategoryIndex);
 
