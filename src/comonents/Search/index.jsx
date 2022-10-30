@@ -46,10 +46,7 @@ const Search = () => {
         className={styles.input}
         placeholder="Поиск пиццы..."
         value={value} //компонент , изменяющий стейт должен в себе хранить value того, что он меняет
-        onChange={
-          onChangeInhput
-          // (event) => setSearchValue(event.target.value)
-        }
+        onChange={onChangeInhput}
       />
       {searchValue && (
         <svg
