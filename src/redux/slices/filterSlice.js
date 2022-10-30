@@ -1,12 +1,13 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   categoryId: 0,
-  sort: { name: 'популярности', sortProperty: 'raiting' },
+  currentPage: 1,
+  sort: { name: "популярности", sortProperty: "raiting" },
 };
 
 export const filterSlice = createSlice({
-  name: 'filters',
+  name: "filters",
   initialState,
   reducers: {
     setCategoryId(state, action) {
@@ -14,11 +15,15 @@ export const filterSlice = createSlice({
     },
     setSortType(state, action) {
       state.sort = action.payload;
-    }
+    },
+    setCurrentPage(state, action) {
+      state.currentPage = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setCategoryId , setSortType} = filterSlice.actions;
+export const { setCategoryId, setSortType, setCurrentPage } =
+  filterSlice.actions;
 
 export default filterSlice.reducer;
