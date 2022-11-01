@@ -34,7 +34,7 @@ const Home = () => {
     dispatch(setCurrentPage(number));
   };
 
-  // если изменили параметры и был первый рендер
+  // Если изменили параметры и был первый рендер
   useEffect(() => {
     if (isMounted.current) {
       // тут берутся параметры из редакса и расшиваются для корректного отображения в адресной строке
@@ -52,7 +52,7 @@ const Home = () => {
     isMounted.current = true;
   }, [categoryId, currentPage, sort.sortProperty]);
 
-  // если был первый рендер, парсим параметры поиска из url, если они есть, и передаем их в редакс, чтобы затем отобразить подходящие элементы
+  // Если был первый рендер, парсим параметры поиска из url, если они есть, и передаем их в редакс, чтобы затем отобразить подходящие элементы
   useEffect(() => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1)); //убираем вопросительный знак в начале сроки
@@ -81,6 +81,7 @@ const Home = () => {
       });
   };
 
+  // Если был первый рендер , о запрашиваем пиццы
   useEffect(() => {
     if (!isUrlSearch.current) {
       fetchPizzas();
