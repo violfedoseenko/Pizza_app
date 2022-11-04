@@ -10,7 +10,7 @@ import Categories from "../comonents/Categories";
 import Pagination from "../comonents/Pagination";
 import PizzaBlock from "../comonents/PizzaBlock";
 import Skeleton from "../comonents/PizzaBlock/skeleton";
-import Sort, { list } from "../comonents/Sort";
+import Sort from "../comonents/Sort";
 import axios from "axios";
 import qs from "qs";
 import { useNavigate } from "react-router-dom";

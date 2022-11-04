@@ -1,14 +1,19 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { addItem, minusItem } from "../../redux/slices/cartSlice";
+import { addItem, minusItem, removeItem } from "../../redux/slices/cartSlice";
 
-const CartItem = ({ id, title, type, price, imageUrl, count }) => {
+const CartItem = ({ id, title, type, price, imageUrl, count, size }) => {
   const dispatch = useDispatch();
   const onClickMinus = () => {
     dispatch(minusItem(id));
   };
   const onClickPluse = () => {
     dispatch(addItem({ id }));
+  };
+  const onClickRemove = () => {
+    if (window.confirm("Вы действительно хотите удалить товар из корзины?")) {
+      dispatch(removeItem(id));
+    }
   };
 
   return (
@@ -18,7 +23,9 @@ const CartItem = ({ id, title, type, price, imageUrl, count }) => {
       </div>
       <div className="cart__item-info">
         <h3>{title}</h3>
-        <p>{type}, 26 см.</p>
+        <p>
+          {type}, {size} см.
+        </p>
       </div>
       <div className="cart__item-count">
         <button
@@ -69,7 +76,10 @@ const CartItem = ({ id, title, type, price, imageUrl, count }) => {
         <b>{price * count} ₽</b>
       </div>
       <div className="cart__item-remove">
-        <button className="button button--outline button--circle">
+        <button
+          onClick={onClickRemove}
+          className="button button--outline button--circle"
+        >
           <svg
             width="10"
             height="10"

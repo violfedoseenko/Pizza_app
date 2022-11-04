@@ -6,8 +6,7 @@ const typeNames = ["тонкое", "традиционное"];
 
 const PizzaBlock = ({ id, title, price, imageUrl, sizes, types }) => {
   const [activeType, setActiveType] = useState(0);
-  const [pizzaCount, setPizzaCount] = useState(0);
-  const [pizzaSize, setPizzaSize] = useState(sizes[0]);
+  const [activeSize, setActiveSize] = useState(sizes[0]);
   const dispatch = useDispatch();
   const currentItem = useSelector((state) =>
     state.cart.items.find((obj) => obj.id === id)
@@ -21,14 +20,11 @@ const PizzaBlock = ({ id, title, price, imageUrl, sizes, types }) => {
       price,
       imageUrl,
       type: typeNames[activeType],
-      size: pizzaSize,
+      size: activeSize,
     };
     dispatch(addItem(item));
   };
 
-  const handleIncremenrtPizzaCount = () => {
-    setPizzaCount(pizzaCount + 1);
-  };
   return (
     <div className="pizza-block">
       <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
@@ -38,7 +34,13 @@ const PizzaBlock = ({ id, title, price, imageUrl, sizes, types }) => {
           {types.map((typeId) => {
             return (
               <li
-                className={activeType === typeId ? "active" : ""}
+                className={
+                  types[0] === 1
+                    ? "active"
+                    : activeType === typeId
+                    ? "active"
+                    : ""
+                }
                 onClick={() => setActiveType(typeId)}
                 key={typeId}
               >
@@ -52,8 +54,8 @@ const PizzaBlock = ({ id, title, price, imageUrl, sizes, types }) => {
             return (
               <li
                 key={size}
-                onClick={() => setPizzaSize(size)}
-                className={pizzaSize === size ? "active" : ""}
+                onClick={() => setActiveSize(size)}
+                className={activeSize === size ? "active" : ""}
               >
                 {size} см.
               </li>
