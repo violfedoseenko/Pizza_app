@@ -45,8 +45,7 @@ export const cartSlice = createSlice({
 
     removeItem(state, action) {
       const findRemovingItem = findItem(state, action.payload)
-      state.totalPrice = state.totalPrice -=
-        findRemovingItem.price * findRemovingItem.count
+      state.totalPrice -= findRemovingItem.price * findRemovingItem.count
       state.items = state.items.filter(
         (obj) =>
           obj.id !== action.payload.id ||
