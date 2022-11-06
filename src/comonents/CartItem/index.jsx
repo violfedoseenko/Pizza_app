@@ -1,20 +1,20 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { addItem, minusItem, removeItem } from "../../redux/slices/cartSlice";
+import React from 'react'
+import { useDispatch } from 'react-redux'
+import { addItem, minusItem, removeItem } from '../../redux/slices/cartSlice'
 
 const CartItem = ({ id, title, type, price, imageUrl, count, size }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const onClickMinus = () => {
-    dispatch(minusItem(id));
-  };
+    dispatch(minusItem({ id, type, size }))
+  }
   const onClickPluse = () => {
-    dispatch(addItem({ id }));
-  };
+    dispatch(addItem({ id, type, size }))
+  }
   const onClickRemove = () => {
-    if (window.confirm("Вы действительно хотите удалить товар из корзины?")) {
-      dispatch(removeItem(id));
+    if (window.confirm('Вы действительно хотите удалить товар из корзины?')) {
+      dispatch(removeItem({ id, type, size }))
     }
-  };
+  }
 
   return (
     <div className="cart__item">
@@ -99,7 +99,7 @@ const CartItem = ({ id, title, type, price, imageUrl, count, size }) => {
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CartItem;
+export default CartItem

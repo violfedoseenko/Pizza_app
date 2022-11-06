@@ -1,12 +1,21 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   totalPrice: 0,
   items: [],
-};
+}
+
+const findItem = (state, payload) => {
+  return state.items.find(
+    (obj) =>
+      obj.id === payload.id &&
+      obj.type === payload.type &&
+      obj.size === payload.size
+  )
+}
 
 export const cartSlice = createSlice({
-  name: "cart",
+  name: 'cart',
   initialState,
   reducers: {
     // рабочий вариант
@@ -21,39 +30,61 @@ export const cartSlice = createSlice({
     //
     // альтернативный вариант
     addItem(state, action) {
-      const findItem = state.items.find((obj) => obj.id === action.payload.id);
-      if (findItem) {
-        findItem.count++;
+      const findAddingItem = findItem(state, action.payload)
+      if (findAddingItem) {
+        findAddingItem.count++
       } else {
-        state.items.push({ ...action.payload, count: 1 });
+        state.items.push({ ...action.payload, count: 1 })
       }
 
       state.totalPrice = state.items.reduce((sum, obj) => {
-        sum += obj.price * obj.count;
-        return sum;
-      }, 0);
+        sum += obj.price * obj.count
+        return sum
+      }, 0)
     },
 
     removeItem(state, action) {
-      console.log(action.payload);
-      state.items = state.items.filter((obj) => obj.id !== action.payload);
+      const findRemovingItem = findItem(state, action.payload)
+      state.totalPrice = state.totalPrice -=
+        findRemovingItem.price * findRemovingItem.count
+      state.items = state.items.filter(
+        (obj) =>
+          obj.id !== action.payload.id ||
+          obj.size !== action.payload.size ||
+          obj.type !== action.payload.type
+      )
     },
 
     clearItems(state) {
-      state.items = [];
-      state.totalPrice = 0;
+      state.items = []
+      state.totalPrice = 0
     },
 
     minusItem(state, action) {
-      const findItem = state.items.find((obj) => obj.id === action.payload);
-      if (findItem) {
-        findItem.count--;
+      const findRedusedItem = findItem(state, action.payload)
+      if (findRedusedItem) {
+        findRedusedItem.count--
+      }
+      state.totalPrice -= findRedusedItem.price
+      if (
+        findRedusedItem.count === 0 &&
+        window.confirm('Вы хотите удалить все пиццы данного типа?')
+      ) {
+        state.items = state.items.filter(
+          (obj) =>
+            obj.id !== action.payload.id ||
+            obj.size !== action.payload.size ||
+            obj.type !== action.payload.type
+        )
+      } else {
+        findRedusedItem.count = 1
+        state.totalPrice += findRedusedItem.price
       }
     },
   },
-});
+})
 
 // Action creators are generated for each case reducer function
-export const { addItem, removeItem, clearItems, minusItem } = cartSlice.actions;
+export const { addItem, removeItem, clearItems, minusItem } = cartSlice.actions
 
-export default cartSlice.reducer;
+export default cartSlice.reducer
