@@ -1,26 +1,45 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import axios from 'axios'
+
+export const fetchPizzas = createAsyncThunk(
+  'pizza/fetchPizzasStatus',
+  async (params) => {
+    const { order, sortBy, category, search, currentPage } = params
+    const res = await axios.get(
+      `https://633de0927e19b17829176b54.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}&${search}`
+    )
+    return res.data
+  }
+)
 
 const initialState = {
   items: [],
+  status: 'loading', // loading|success|error
 }
 
 export const pizzaSlice = createSlice({
   name: 'pizza',
   initialState,
-  reducers: {
-    // рабочий вариант
-    //
-    // addItem(state, action) {
-    //   state.items.push(action.payload);
-    //   state.totalPrice = state.items.reduce((sum, obj) => {
-    //     sum += obj.price;
-    //     return sum;
-    //   }, 0);
-    // },
-    //
-    // альтернативный вариант
-    setItems(state, action) {
+  // reducers: {
+  //   setItems(state, action) {
+  //     state.items = action.payload
+  //   },
+  // },
+  extraReducers: {
+    [fetchPizzas.pending]: (state) => {
+      state.status = 'loading'
+      state.items = []
+      console.log('Идет отправка')
+    },
+    [fetchPizzas.fulfilled]: (state, action) => {
       state.items = action.payload
+      state.status = 'success'
+      console.log(state, 'okk')
+    },
+    [fetchPizzas.rejected]: (state) => {
+      state.status = 'error'
+      console.log('Была ошибка')
+      state.items = []
     },
   },
 })
