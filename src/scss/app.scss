@@ -16,6 +16,18 @@ body {
   max-width: 1400px;
 }
 
+.flex-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.pizza-img {
+  width: 400px;
+}
+
 .content {
   padding: 40px 0;
 

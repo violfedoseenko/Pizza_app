@@ -12,7 +12,7 @@ import PizzaBlock from '../comonents/PizzaBlock'
 import Skeleton from '../comonents/PizzaBlock/skeleton'
 import Sort from '../comonents/Sort'
 import qs from 'qs'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Home = () => {
   const dispatch = useDispatch()
@@ -111,7 +111,11 @@ const Home = () => {
                   return <Skeleton key={index} />
                 })
               : items.map((pizza) => {
-                  return <PizzaBlock key={pizza.id} {...pizza} />
+                  return (
+                    <Link to={`/pizza/${pizza.id}`} key={pizza.id}>
+                      <PizzaBlock {...pizza} />
+                    </Link>
+                  )
                 })}
           </div>
         </>
