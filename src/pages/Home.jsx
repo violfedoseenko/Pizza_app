@@ -1,5 +1,4 @@
-import React, { useEffect, useContext, useRef } from 'react'
-import { SearchContext } from '../App'
+import React, { useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   setCategoryId,
@@ -20,8 +19,9 @@ const Home = () => {
   const navigate = useNavigate()
   const isUrlSearch = useRef(false)
   const isMounted = useRef(false) // переменная хранит данные был ли совершен первый рендер
-  const { searchValue } = useContext(SearchContext)
-  const { categoryId, sort, currentPage } = useSelector((state) => state.filter)
+  const { categoryId, sort, currentPage, searchValue } = useSelector(
+    (state) => state.filter
+  )
   const { items, status } = useSelector((state) => state.pizza)
   const currentSort = useSelector((store) => store.filter.sort)
   const onChangeCategory = (id) => {
@@ -37,6 +37,8 @@ const Home = () => {
     const sortBy = currentSort.sortProperty.replace('-', '')
     const category = categoryId > 0 ? `category=${categoryId}` : ''
     const search = searchValue ? `search=${searchValue}` : ''
+
+    console.log('search', search)
 
     dispatch(
       fetchPizzas({

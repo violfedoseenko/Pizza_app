@@ -1,30 +1,33 @@
-import React, { useState, useContext, useRef, useCallback } from "react";
-import { SearchContext } from "../../App";
-import debounce from "lodash.debounce";
-import styles from "./search.module.scss";
+import React, { useState, useRef, useCallback } from 'react'
+import debounce from 'lodash.debounce'
+import styles from './search.module.scss'
+import { useDispatch } from 'react-redux'
+import { setSearchValue } from '../../redux/slices/filterSlice'
 
 const Search = () => {
-  const inputRef = useRef();
-  const [value, setValue] = useState(""); //отвечает за быстрое отобрадение данных в input
-  const { searchValue, setSearchValue } = useContext(SearchContext); //отвечает за поиск
+  const inputRef = useRef()
+  const [value, setValue] = useState('') //отвечает за быстрое отображение данных в input
+  const dispatch = useDispatch()
+
+  console.log('value', value)
 
   const onClickClear = () => {
-    setSearchValue("");
-    setValue("");
-    inputRef.current.focus();
-  };
+    dispatch(setSearchValue(''))
+    setValue('')
+    inputRef.current.focus()
+  }
 
   const updateSearchValue = useCallback(
     debounce((str) => {
-      setSearchValue(str);
+      dispatch(setSearchValue(str))
     }, 1000),
     []
-  );
+  )
 
   const onChangeInhput = (event) => {
-    setValue(event.target.value);
-    updateSearchValue(event.target.value);
-  };
+    setValue(event.target.value)
+    updateSearchValue(event.target.value)
+  }
 
   return (
     <div className={styles.root}>
@@ -48,7 +51,7 @@ const Search = () => {
         value={value} //компонент , изменяющий стейт должен в себе хранить value того, что он меняет
         onChange={onChangeInhput}
       />
-      {searchValue && (
+      {value && (
         <svg
           onClick={() => onClickClear()}
           className={styles.icon_close}
@@ -84,7 +87,7 @@ const Search = () => {
         </svg>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Search;
+export default Search

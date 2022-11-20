@@ -1,14 +1,15 @@
-import { Link } from "react-router-dom";
-import logoSvg from "../assets/img/pizza-logo.svg";
-import Search from "./Search";
-import { useSelector } from "react-redux";
+import { Link } from 'react-router-dom'
+import logoSvg from '../assets/img/pizza-logo.svg'
+import Search from './Search'
+import { useSelector } from 'react-redux'
+import { selectCart } from '../redux/slices/cartSlice'
 
 const Header = () => {
-  const { items, totalPrice } = useSelector((state) => state.cart);
+  const { items, totalPrice } = useSelector(selectCart)
 
   const countTotalPizzas = items.reduce((sum, obj) => {
-    return sum + obj.count;
-  }, 0);
+    return sum + obj.count
+  }, 0)
 
   return (
     <div className="header">
@@ -61,7 +62,7 @@ const Header = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header
