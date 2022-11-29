@@ -1,41 +1,47 @@
-import React, { useState, useRef, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { setSortType } from "../redux/slices/filterSlice";
+import React, { useState, useRef, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { setSortType } from '../redux/slices/filterSlice'
 
-export const list = [
-  { name: "популярности (DESC)", sortProperty: "raiting" },
-  { name: "популярности (ASC)", sortProperty: "-raiting" },
-  { name: "цене (DESC)", sortProperty: "price" },
-  { name: "цене (ASC)", sortProperty: "-price" },
-  { name: "алфавиту (DESC)", sortProperty: "title" },
-  { name: "алфавиту (ASC)", sortProperty: "-title" },
-];
+type SortListItem = {
+  name: string
+  sortProperty: string
+}
 
-const Sort = () => {
-  const dispatch = useDispatch();
-  const currentSort = useSelector((store) => store.filter.sort);
-  const [open, setOpen] = useState(false);
-  const sortRef = useRef();
+export const list: SortListItem[] = [
+  { name: 'популярности (DESC)', sortProperty: 'raiting' },
+  { name: 'популярности (ASC)', sortProperty: '-raiting' },
+  { name: 'цене (DESC)', sortProperty: 'price' },
+  { name: 'цене (ASC)', sortProperty: '-price' },
+  { name: 'алфавиту (DESC)', sortProperty: 'title' },
+  { name: 'алфавиту (ASC)', sortProperty: '-title' },
+]
 
-  const onSelectSort = (obj) => {
-    dispatch(setSortType(obj));
-    setOpen(false);
-  };
+const Sort: React.FC = () => {
+  const dispatch = useDispatch()
+  // @ts-ignore
+  const currentSort = useSelector((store) => store.filter.sort)
+  const [open, setOpen] = useState(false)
+  const sortRef = useRef<HTMLDivElement>(null)
+
+  const onSelectSort = (obj: SortListItem) => {
+    dispatch(setSortType(obj))
+    setOpen(false)
+  }
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: any) => {
       // вызывается при каждом монтировании компонента
       if (!event.path.includes(sortRef.current)) {
         // event.path мметод устаревший можно вместо этого использовать event.composedPath()
-        setOpen(false);
+        setOpen(false)
       }
-    };
-    document.body.addEventListener("click", handleClickOutside);
+    }
+    document.body.addEventListener('click', handleClickOutside)
 
     return () => {
       // вызывается при демонтировании компонента , аналог willUnmount()
-      document.body.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
+      document.body.removeEventListener('click', handleClickOutside)
+    }
+  }, [])
   return (
     <div ref={sortRef} className="sort">
       <div className="sort__label">
@@ -64,19 +70,19 @@ const Sort = () => {
                   onClick={() => onSelectSort(obj)}
                   className={
                     currentSort.sortProperty === obj.sortProperty
-                      ? "active"
-                      : ""
+                      ? 'active'
+                      : ''
                   }
                 >
                   {obj.name}
                 </li>
-              );
+              )
             })}
           </ul>
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Sort;
+export default Sort

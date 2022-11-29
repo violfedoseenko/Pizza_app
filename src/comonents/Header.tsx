@@ -4,13 +4,13 @@ import Search from './Search'
 import { useSelector } from 'react-redux'
 import { selectCart } from '../redux/slices/cartSlice'
 
-const Header = () => {
+const Header: React.FC = () => {
   //в зависимости от того, что в адресной строчке мы можем отрисовывать те или иные компонеты (useLocation())
   const location = useLocation() // с его помощью мы можем осуществить перерисовку комоненета, если изменился, например, путь pathname
   console.log(location.pathname)
   const { items, totalPrice } = useSelector(selectCart)
 
-  const countTotalPizzas = items.reduce((sum, obj) => {
+  const countTotalPizzas = items.reduce((sum: number, obj: any) => {
     return sum + obj.count
   }, 0)
 

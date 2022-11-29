@@ -14,22 +14,25 @@ import Sort from '../comonents/Sort'
 import qs from 'qs'
 import { Link, useNavigate } from 'react-router-dom'
 
-const Home = () => {
+const Home: React.FC = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const isUrlSearch = useRef(false)
   const isMounted = useRef(false) // переменная хранит данные был ли совершен первый рендер
   const { categoryId, sort, currentPage, searchValue } = useSelector(
+    // @ts-ignore
     (state) => state.filter
   )
+  // @ts-ignore
   const { items, status } = useSelector((state) => state.pizza)
+  // @ts-ignore
   const currentSort = useSelector((store) => store.filter.sort)
-  const onChangeCategory = (id) => {
+  const onChangeCategory = (id: number) => {
     dispatch(setCategoryId(id))
   }
 
-  const onChangePage = (number) => {
-    dispatch(setCurrentPage(number))
+  const onChangePage = (page: number) => {
+    dispatch(setCurrentPage(page))
   }
 
   const getPizzas = async () => {
@@ -41,6 +44,7 @@ const Home = () => {
     console.log('search', search)
 
     dispatch(
+      // @ts-ignore
       fetchPizzas({
         order,
         sortBy,
@@ -110,7 +114,7 @@ const Home = () => {
               ? [...new Array(4)].map((_, index) => {
                   return <Skeleton key={index} />
                 })
-              : items.map((pizza) => {
+              : items.map((pizza: any) => {
                   return (
                     <Link to={`/pizza/${pizza.id}`} key={pizza.id}>
                       <PizzaBlock {...pizza} />

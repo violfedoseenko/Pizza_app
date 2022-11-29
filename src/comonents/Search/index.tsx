@@ -4,8 +4,8 @@ import styles from './search.module.scss'
 import { useDispatch } from 'react-redux'
 import { setSearchValue } from '../../redux/slices/filterSlice'
 
-const Search = () => {
-  const inputRef = useRef()
+const Search: React.FC = () => {
+  const inputRef = useRef<HTMLInputElement>(null)
   const [value, setValue] = useState('') //отвечает за быстрое отображение данных в input
   const dispatch = useDispatch()
 
@@ -14,7 +14,7 @@ const Search = () => {
   const onClickClear = () => {
     dispatch(setSearchValue(''))
     setValue('')
-    inputRef.current.focus()
+    inputRef.current?.focus()
   }
 
   const updateSearchValue = useCallback(
@@ -24,7 +24,7 @@ const Search = () => {
     []
   )
 
-  const onChangeInhput = (event) => {
+  const onChangeInhput = (event: any) => {
     setValue(event.target.value)
     updateSearchValue(event.target.value)
   }

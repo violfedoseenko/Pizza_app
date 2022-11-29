@@ -1,4 +1,3 @@
-import React from 'react'
 import FullPizza from './pages/FullPizza'
 import NotFound from './pages/NotFound'
 import { Routes, Route } from 'react-router-dom'
