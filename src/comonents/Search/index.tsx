@@ -24,7 +24,7 @@ const Search: React.FC = () => {
     []
   )
 
-  const onChangeInhput = (event: any) => {
+  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value)
     updateSearchValue(event.target.value)
   }
@@ -49,7 +49,7 @@ const Search: React.FC = () => {
         className={styles.input}
         placeholder="Поиск пиццы..."
         value={value} //компонент , изменяющий стейт должен в себе хранить value того, что он меняет
-        onChange={onChangeInhput}
+        onChange={onChangeInput}
       />
       {value && (
         <svg

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import {
+  FilterSliceState,
   setCategoryId,
   setCurrentPage,
   setFilters,
@@ -12,21 +13,21 @@ import PizzaBlock from '../comonents/PizzaBlock'
 import Skeleton from '../comonents/PizzaBlock/skeleton'
 import Sort from '../comonents/Sort'
 import qs from 'qs'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { RootState, useAppDispatch } from '../redux/store'
 
 const Home: React.FC = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch() // сделат свой типизированный dispatch, потому что внутри обычного dispatch нельзя вызывать асинхронный экшн
   const navigate = useNavigate()
   const isUrlSearch = useRef(false)
   const isMounted = useRef(false) // переменная хранит данные был ли совершен первый рендер
   const { categoryId, sort, currentPage, searchValue } = useSelector(
-    // @ts-ignore
-    (state) => state.filter
+    (state: RootState) => state.filter
   )
-  // @ts-ignore
-  const { items, status } = useSelector((state) => state.pizza)
-  // @ts-ignore
-  const currentSort = useSelector((store) => store.filter.sort)
+
+  const { items, status } = useSelector((state: RootState) => state.pizza)
+
+  const currentSort = useSelector((store: RootState) => store.filter.sort)
   const onChangeCategory = (id: number) => {
     dispatch(setCategoryId(id))
   }
@@ -44,43 +45,44 @@ const Home: React.FC = () => {
     console.log('search', search)
 
     dispatch(
-      // @ts-ignore
       fetchPizzas({
         order,
         sortBy,
         category,
         search,
-        currentPage,
+        currentPage: String(currentPage),
       })
     )
   }
 
-  // Если изменили параметры и был первый рендер
-  useEffect(() => {
-    if (isMounted.current) {
-      // тут берутся параметры из редакса и расшиваются для корректного отображения в адресной строке
-      // и это происходит только при втором и последующих рендерах
-      const queryString = qs.stringify(
-        {
-          sortProperty: sort.sortProperty,
-          categoryId,
-          currentPage,
-        },
-        { addQueryPrefix: true } // добавляет знак вопроса перед параметрами
-      )
-      navigate(`${queryString}`)
-    }
-    isMounted.current = true
-  }, [categoryId, currentPage, sort.sortProperty])
+  // // Если изменили параметры и был первый рендер
+  // useEffect(() => {
+  //   if (isMounted.current) {
+  //     // тут берутся параметры из редакса и расшиваются для корректного отображения в адресной строке
+  //     // и это происходит только при втором и последующих рендерах
+  //     const queryString = qs.stringify(
+  //       {
+  //         sortProperty: sort.sortProperty,
+  //         categoryId,
+  //         currentPage,
+  //       },
+  //       { addQueryPrefix: true } // добавляет знак вопроса перед параметрами
+  //     )
+  //     navigate(`${queryString}`)
+  //   }
+  //   isMounted.current = true
+  // }, [categoryId, currentPage, sort.sortProperty])
 
-  // Если был первый рендер, парсим параметры поиска из url, если они есть, и передаем их в редакс, чтобы затем отобразить подходящие элементы
-  useEffect(() => {
-    if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1)) //убираем вопросительный знак в начале сроки
-      dispatch(setFilters({ ...params }))
-      isUrlSearch.current = true
-    }
-  }, [])
+  // // Если был первый рендер, парсим параметры поиска из url, если они есть, и передаем их в редакс, чтобы затем отобразить подходящие элементы
+  // useEffect(() => {
+  //   if (window.location.search) {
+  //     const params = qs.parse(
+  //       window.location.search.substring(1)
+  //     ) as unknown as FilterSliceState //убираем вопросительный знак в начале сроки
+  //     dispatch(setFilters({ ...params }))
+  //     isUrlSearch.current = true
+  //   }
+  // }, [])
 
   // Если был первый рендер , о запрашиваем пиццы
   useEffect(() => {
@@ -115,11 +117,7 @@ const Home: React.FC = () => {
                   return <Skeleton key={index} />
                 })
               : items.map((pizza: any) => {
-                  return (
-                    <Link to={`/pizza/${pizza.id}`} key={pizza.id}>
-                      <PizzaBlock {...pizza} />
-                    </Link>
-                  )
+                  return <PizzaBlock {...pizza} />
                 })}
           </div>
         </>

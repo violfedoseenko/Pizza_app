@@ -4,11 +4,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import CartItem from '../comonents/CartItem'
 import { clearItems } from '../redux/slices/cartSlice'
 import CartEmpty from '../comonents/CartEmpty'
+import { RootState } from '../redux/store'
 
 const Cart: React.FC = () => {
   const dispatch = useDispatch()
-  // @ts-ignore
-  const { items, totalPrice } = useSelector((state) => state.cart)
+  const { items, totalPrice } = useSelector((state: RootState) => state.cart)
   const onClickClear = () => {
     if (window.confirm('Вы действительно хотите очистить корзину?')) {
       dispatch(clearItems())

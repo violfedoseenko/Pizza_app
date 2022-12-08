@@ -1,6 +1,11 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { addItem, minusItem, removeItem } from '../../redux/slices/cartSlice'
+import {
+  addItem,
+  minusItem,
+  removeItem,
+  TCartItem,
+} from '../../redux/slices/cartSlice'
 
 type CartItemProp = {
   id: string
@@ -23,14 +28,14 @@ const CartItem: React.FC<CartItemProp> = ({
 }) => {
   const dispatch = useDispatch()
   const onClickMinus = () => {
-    dispatch(minusItem({ id, type, size }))
+    dispatch(minusItem({ id, type, size } as TCartItem))
   }
   const onClickPluse = () => {
-    dispatch(addItem({ id, type, size }))
+    dispatch(addItem({ id, type, size } as TCartItem))
   }
   const onClickRemove = () => {
     if (window.confirm('Вы действительно хотите удалить товар из корзины?')) {
-      dispatch(removeItem({ id, type, size }))
+      dispatch(removeItem({ id, type, size } as TCartItem))
     }
   }
 

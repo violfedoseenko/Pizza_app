@@ -1,25 +1,25 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { setSortType } from '../redux/slices/filterSlice'
+import { setSortType, SortPropertyEnum } from '../redux/slices/filterSlice'
+import { RootState } from '../redux/store'
 
 type SortListItem = {
   name: string
-  sortProperty: string
+  sortProperty: SortPropertyEnum
 }
 
 export const list: SortListItem[] = [
-  { name: 'популярности (DESC)', sortProperty: 'raiting' },
-  { name: 'популярности (ASC)', sortProperty: '-raiting' },
-  { name: 'цене (DESC)', sortProperty: 'price' },
-  { name: 'цене (ASC)', sortProperty: '-price' },
-  { name: 'алфавиту (DESC)', sortProperty: 'title' },
-  { name: 'алфавиту (ASC)', sortProperty: '-title' },
+  { name: 'популярности (DESC)', sortProperty: SortPropertyEnum.RAITING_DESC },
+  { name: 'популярности (ASC)', sortProperty: SortPropertyEnum.RAITING_ASC },
+  { name: 'цене (DESC)', sortProperty: SortPropertyEnum.PRICE_DESC },
+  { name: 'цене (ASC)', sortProperty: SortPropertyEnum.PRICE_ASC },
+  { name: 'алфавиту (DESC)', sortProperty: SortPropertyEnum.TITLE_DESC },
+  { name: 'алфавиту (ASC)', sortProperty: SortPropertyEnum.TITLE_ASC },
 ]
 
 const Sort: React.FC = () => {
   const dispatch = useDispatch()
-  // @ts-ignore
-  const currentSort = useSelector((store) => store.filter.sort)
+  const currentSort = useSelector((store: RootState) => store.filter.sort)
   const [open, setOpen] = useState(false)
   const sortRef = useRef<HTMLDivElement>(null)
 
@@ -28,9 +28,11 @@ const Sort: React.FC = () => {
     setOpen(false)
   }
   useEffect(() => {
-    const handleClickOutside = (event: any) => {
+    const handleClickOutside = (event: MouseEvent) => {
+      // const _event = event as MouseEvent & { path: Node[] }
+      // if (sortRef.current && !_event.path.includes(sortRef.current)) {
       // вызывается при каждом монтировании компонента
-      if (!event.path.includes(sortRef.current)) {
+      if (sortRef.current && !event.composedPath().includes(sortRef.current)) {
         // event.path мметод устаревший можно вместо этого использовать event.composedPath()
         setOpen(false)
       }
