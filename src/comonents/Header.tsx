@@ -2,17 +2,27 @@ import { Link, useLocation } from 'react-router-dom'
 import logoSvg from '../assets/img/pizza-logo.svg'
 import Search from './Search'
 import { useSelector } from 'react-redux'
-import { selectCart } from '../redux/slices/cartSlice'
+import { selectCart, TCartItem } from '../redux/slices/cartSlice'
+import { useEffect, useRef } from 'react'
 
 const Header: React.FC = () => {
   //в зависимости от того, что в адресной строчке мы можем отрисовывать те или иные компонеты (useLocation())
   const location = useLocation() // с его помощью мы можем осуществить перерисовку комоненета, если изменился, например, путь pathname
   console.log(location.pathname)
   const { items, totalPrice } = useSelector(selectCart)
+  let isMounted = useRef(false)
 
-  const countTotalPizzas = items.reduce((sum: number, obj: any) => {
+  const countTotalPizzas = items.reduce((sum: number, obj: TCartItem) => {
     return sum + obj.count
   }, 0)
+
+  useEffect(() => {
+    if (isMounted) {
+      const json = JSON.stringify(items)
+      localStorage.setItem('cart', json)
+    }
+    isMounted.current = true
+  }, [items])
 
   return (
     <div className="header">
@@ -26,8 +36,8 @@ const Header: React.FC = () => {
             </div>
           </div>
         </Link>
-        <Search />
-        {location.pathname !== '/cart' && (
+        {location.pathname === '/' && <Search />}
+        {
           <div className="header__cart">
             <Link to="/cart" className="button button--cart">
               <span className="button__total-cost">{`${totalPrice} ₽`}</span>
@@ -64,7 +74,7 @@ const Header: React.FC = () => {
               <span className="button__total-items">{countTotalPizzas}</span>
             </Link>
           </div>
-        )}
+        }
       </div>
     </div>
   )

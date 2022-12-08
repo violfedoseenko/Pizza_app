@@ -7,7 +7,7 @@ export enum Status {
   ERROR = 'error',
 }
 
-type Pizza = {
+export type Pizza = {
   id: string
   title: string
   price: number
@@ -18,7 +18,7 @@ type Pizza = {
 
 interface PizzaSliceState {
   items: Pizza[]
-  status: 'loading' | 'success' | 'error'
+  status: Status
 }
 
 const initialState: PizzaSliceState = {
@@ -64,9 +64,9 @@ export const pizzaSlice = createSlice({
       state.items = action.payload
       state.status = Status.SUCSESS
     })
-    builder.addCase(fetchPizzas.rejected, (state) => {
-      state.status = Status.ERROR
+    builder.addCase(fetchPizzas.rejected, (state, action) => {
       state.items = []
+      state.status = Status.ERROR
     })
   },
   // {

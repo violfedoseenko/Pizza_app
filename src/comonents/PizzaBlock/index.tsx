@@ -29,7 +29,7 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({
 
   const currentItem = useSelector((state: RootState) =>
     state.cart.items.find(
-      (obj: any) =>
+      (obj) =>
         obj.id === id &&
         obj.type === typeNames[activeType] &&
         obj.size === activeSize

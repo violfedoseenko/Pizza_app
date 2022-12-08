@@ -1,4 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { calcTotalPrice } from '../../utils/calcTotalPrice'
+import { getCartFromLS } from '../../utils/getCartFromLS'
 import { RootState } from '../store'
 
 export type TCartItem = {
@@ -16,9 +18,11 @@ interface CartSliceState {
   items: TCartItem[]
 }
 
+const { items, totalPrice } = getCartFromLS()
+
 const initialState: CartSliceState = {
-  totalPrice: 0,
-  items: [],
+  totalPrice,
+  items,
 }
 
 const findItem = (state: CartSliceState, action: PayloadAction<TCartItem>) => {
@@ -53,10 +57,7 @@ export const cartSlice = createSlice({
         state.items.push({ ...action.payload, count: 1 })
       }
 
-      state.totalPrice = state.items.reduce((sum, obj) => {
-        sum += obj.price * obj.count
-        return sum
-      }, 0)
+      state.totalPrice = calcTotalPrice(state.items)
     },
 
     removeItem(state, action: PayloadAction<TCartItem>) {
@@ -80,22 +81,7 @@ export const cartSlice = createSlice({
       const findRedusedItem = findItem(state, action)
       if (findRedusedItem) {
         findRedusedItem.count--
-
         state.totalPrice -= findRedusedItem.price
-        if (
-          findRedusedItem.count === 0 &&
-          window.confirm('Вы хотите удалить все пиццы данного типа?')
-        ) {
-          state.items = state.items.filter(
-            (obj) =>
-              obj.id !== action.payload.id ||
-              obj.size !== action.payload.size ||
-              obj.type !== action.payload.type
-          )
-        } else {
-          findRedusedItem.count = 1
-          state.totalPrice += findRedusedItem.price
-        }
       }
     },
   },

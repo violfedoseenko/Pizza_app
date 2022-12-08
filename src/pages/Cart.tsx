@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import CartItem from '../comonents/CartItem'
-import { clearItems } from '../redux/slices/cartSlice'
+import { clearItems, TCartItem } from '../redux/slices/cartSlice'
 import CartEmpty from '../comonents/CartEmpty'
 import { RootState } from '../redux/store'
 
@@ -14,7 +14,7 @@ const Cart: React.FC = () => {
       dispatch(clearItems())
     }
   }
-  const countTotalPizzas = items.reduce((sum: number, obj: any) => {
+  const countTotalPizzas = items.reduce((sum: number, obj: TCartItem) => {
     return sum + obj.count
   }, 0)
 
@@ -64,7 +64,7 @@ const Cart: React.FC = () => {
             <span>Очистить корзину</span>
           </div>
         </div>
-        {items.map((item: any) => (
+        {items.map((item: TCartItem) => (
           <CartItem key={item.id + item.size + item.type} {...item} />
         ))}
         <div className="cart__bottom">

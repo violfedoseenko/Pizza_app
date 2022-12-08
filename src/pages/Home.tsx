@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import {
   FilterSliceState,
@@ -28,9 +28,9 @@ const Home: React.FC = () => {
   const { items, status } = useSelector((state: RootState) => state.pizza)
 
   const currentSort = useSelector((store: RootState) => store.filter.sort)
-  const onChangeCategory = (id: number) => {
+  const onChangeCategory = useCallback((id: number) => {
     dispatch(setCategoryId(id))
-  }
+  }, []) // создается при первом рендере и больше не пересоздается
 
   const onChangePage = (page: number) => {
     dispatch(setCurrentPage(page))
@@ -93,6 +93,7 @@ const Home: React.FC = () => {
 
     window.scrollTo(0, 0) //при переходе на новую страницу делать скролл вверх
   }, [categoryId, sort.sortProperty, searchValue, currentPage])
+  console.log(status)
 
   return (
     <div className="container">
@@ -116,8 +117,8 @@ const Home: React.FC = () => {
               ? [...new Array(4)].map((_, index) => {
                   return <Skeleton key={index} />
                 })
-              : items.map((pizza: any) => {
-                  return <PizzaBlock {...pizza} />
+              : items.map((pizza) => {
+                  return <PizzaBlock key={pizza.id} {...pizza} />
                 })}
           </div>
         </>
