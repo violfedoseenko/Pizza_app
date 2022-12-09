@@ -7,11 +7,13 @@ import {
   setFilters,
 } from '../redux/slices/filterSlice'
 import { fetchPizzas } from '../redux/slices/pizzaSlice'
-import Categories from '../comonents/Categories'
-import Pagination from '../comonents/Pagination'
-import PizzaBlock from '../comonents/PizzaBlock'
-import Skeleton from '../comonents/PizzaBlock/skeleton'
-import Sort from '../comonents/Sort'
+import {
+  Categories,
+  Pagination,
+  PizzaBlock,
+  Skeleton,
+  Sort,
+} from '../comonents'
 import qs from 'qs'
 import { useNavigate } from 'react-router-dom'
 import { RootState, useAppDispatch } from '../redux/store'

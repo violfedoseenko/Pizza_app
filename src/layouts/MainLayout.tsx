@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom'
-import Header from '../comonents/Header'
+import { Header } from '../comonents'
 const Mainlayout: React.FC = () => {
   return (
     <>

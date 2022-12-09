@@ -1,11 +1,11 @@
 import { Link, useLocation } from 'react-router-dom'
 import logoSvg from '../assets/img/pizza-logo.svg'
-import Search from './Search'
+import { Search } from '../comonents'
 import { useSelector } from 'react-redux'
 import { selectCart, TCartItem } from '../redux/slices/cartSlice'
 import { useEffect, useRef } from 'react'
 
-const Header: React.FC = () => {
+export const Header: React.FC = () => {
   //в зависимости от того, что в адресной строчке мы можем отрисовывать те или иные компонеты (useLocation())
   const location = useLocation() // с его помощью мы можем осуществить перерисовку комоненета, если изменился, например, путь pathname
   console.log(location.pathname)
@@ -79,5 +79,3 @@ const Header: React.FC = () => {
     </div>
   )
 }
-
-export default Header

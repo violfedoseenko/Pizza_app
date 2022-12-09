@@ -17,7 +17,7 @@ type CartItemProp = {
   size: number
 }
 
-const CartItem: React.FC<CartItemProp> = ({
+export const CartItem: React.FC<CartItemProp> = ({
   id,
   title,
   type,
@@ -129,5 +129,3 @@ const CartItem: React.FC<CartItemProp> = ({
     </div>
   )
 }
-
-export default CartItem
