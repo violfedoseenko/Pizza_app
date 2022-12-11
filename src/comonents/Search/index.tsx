@@ -9,8 +9,6 @@ export const Search: React.FC = () => {
   const [value, setValue] = useState('') //отвечает за быстрое отображение данных в input
   const dispatch = useDispatch()
 
-  console.log('value', value)
-
   const onClickClear = () => {
     dispatch(setSearchValue(''))
     setValue('')

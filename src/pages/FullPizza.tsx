@@ -20,7 +20,6 @@ const FullPizza: React.FC = () => {
           `https://633de0927e19b17829176b54.mockapi.io/items/${id}`
         )
         setPizza(data)
-        console.log(data)
       } catch {
         alert('Ошибка при получении пиццы!')
         navigate('/')

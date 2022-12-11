@@ -44,8 +44,6 @@ const Home: React.FC = () => {
     const category = categoryId > 0 ? `category=${categoryId}` : ''
     const search = searchValue ? `search=${searchValue}` : ''
 
-    console.log('search', search)
-
     dispatch(
       fetchPizzas({
         order,
@@ -57,34 +55,34 @@ const Home: React.FC = () => {
     )
   }
 
-  // // Если изменили параметры и был первый рендер
-  // useEffect(() => {
-  //   if (isMounted.current) {
-  //     // тут берутся параметры из редакса и расшиваются для корректного отображения в адресной строке
-  //     // и это происходит только при втором и последующих рендерах
-  //     const queryString = qs.stringify(
-  //       {
-  //         sortProperty: sort.sortProperty,
-  //         categoryId,
-  //         currentPage,
-  //       },
-  //       { addQueryPrefix: true } // добавляет знак вопроса перед параметрами
-  //     )
-  //     navigate(`${queryString}`)
-  //   }
-  //   isMounted.current = true
-  // }, [categoryId, currentPage, sort.sortProperty])
+  // Если изменили параметры и был первый рендер
+  useEffect(() => {
+    if (isMounted.current) {
+      // тут берутся параметры из редакса и расшиваются для корректного отображения в адресной строке
+      // и это происходит только при втором и последующих рендерах
+      const queryString = qs.stringify(
+        {
+          sortProperty: sort.sortProperty,
+          categoryId,
+          currentPage,
+        },
+        { addQueryPrefix: true } // добавляет знак вопроса перед параметрами
+      )
+      navigate(`${queryString}`)
+    }
+    isMounted.current = true
+  }, [categoryId, currentPage, sort.sortProperty])
 
-  // // Если был первый рендер, парсим параметры поиска из url, если они есть, и передаем их в редакс, чтобы затем отобразить подходящие элементы
-  // useEffect(() => {
-  //   if (window.location.search) {
-  //     const params = qs.parse(
-  //       window.location.search.substring(1)
-  //     ) as unknown as FilterSliceState //убираем вопросительный знак в начале сроки
-  //     dispatch(setFilters({ ...params }))
-  //     isUrlSearch.current = true
-  //   }
-  // }, [])
+  // Если был первый рендер, парсим параметры поиска из url, если они есть, и передаем их в редакс, чтобы затем отобразить подходящие элементы
+  useEffect(() => {
+    if (window.location.search) {
+      const params = qs.parse(
+        window.location.search.substring(1)
+      ) as unknown as FilterSliceState //убираем вопросительный знак в начале сроки
+      dispatch(setFilters({ ...params }))
+      isUrlSearch.current = true
+    }
+  }, [])
 
   // Если был первый рендер , о запрашиваем пиццы
   useEffect(() => {
@@ -95,7 +93,6 @@ const Home: React.FC = () => {
 
     window.scrollTo(0, 0) //при переходе на новую страницу делать скролл вверх
   }, [categoryId, sort.sortProperty, searchValue, currentPage])
-  console.log(status)
 
   return (
     <div className="container">

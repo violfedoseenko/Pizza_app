@@ -8,7 +8,6 @@ import { useEffect, useRef } from 'react'
 export const Header: React.FC = () => {
   //в зависимости от того, что в адресной строчке мы можем отрисовывать те или иные компонеты (useLocation())
   const location = useLocation() // с его помощью мы можем осуществить перерисовку комоненета, если изменился, например, путь pathname
-  console.log(location.pathname)
   const { items, totalPrice } = useSelector(selectCart)
   let isMounted = useRef(false)
 
